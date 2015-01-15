@@ -44,11 +44,8 @@
   <ItemGroup>
     <Compile Include="Menu.cs" />
     <Compile Include="ParsePSV.cs" />
-<<<<<<< HEAD
     <Compile Include="Shell.cs" />
-=======
     <Compile Include="PSVWriter.cs" />
->>>>>>> 30ac5dd6d76742935a86aeb9e77e4ffbefebd240
     <Compile Include="Table.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
