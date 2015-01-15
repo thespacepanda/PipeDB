@@ -12,7 +12,6 @@ namespace Application {
 				"3. Exit The Program"
 			};
 			options.ForEach(option => Console.WriteLine(option));
-			DisplayPrompt();
 			var choice = Convert.ToInt32(Console.ReadLine());
 			switch(choice) {
 				case 1:
@@ -29,16 +28,6 @@ namespace Application {
 					Console.WriteLine("Please enter a valid option.");
 					break;
 			}
-		}
-
-		private static void DisplayPrompt() {
-			var prompt1 = "{ ~ }";
-			var prompt2 = "  » ";
-			Console.ForegroundColor = ConsoleColor.Cyan;
-			Console.Write(prompt1);
-			Console.ForegroundColor = ConsoleColor.Red;
-			Console.Write(prompt2);
-			Console.ResetColor();
 		}
 
 		private static void ImportDatabase() {
