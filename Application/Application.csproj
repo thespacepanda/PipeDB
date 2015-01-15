@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CommandOptions.cs" />
+    <Compile Include="CSVtoPSV.cs" />
     <Compile Include="Menu.cs" />
     <Compile Include="ParsePSV.cs" />
     <Compile Include="Shell.cs" />
