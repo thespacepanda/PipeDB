@@ -195,3 +195,9 @@ FakesAssemblies/
 Application/.Application.csproj.swp
 DatabaseExtraCredit.v12.suo
 Application/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache
+
+*.exe
+Application/obj/Debug/Application.csprojResolveAssemblyReference.cache
+*.cache
+*.pdb
+*.cache
