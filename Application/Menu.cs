@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.IO;
-using System.Threading.Tasks;
 
 namespace Application {
 
@@ -17,7 +14,7 @@ namespace Application {
 			options.ForEach(option => Console.WriteLine(option));
 			DisplayPrompt();
 			var choice = Convert.ToInt32(Console.ReadLine());
-			switch (choice) {
+			switch(choice) {
 				case 1:
 					ImportDatabase();
 					break;
@@ -48,12 +45,12 @@ namespace Application {
 			Console.Write("Please specify the location of your .psv file: ");
 			var filename = Console.ReadLine();
 			Table table;
-			using (StreamReader psv = new StreamReader(filename)) {
-				table = File.Exists(filename) ? 
-					ParsePSV.GetTable(psv, filename) :
+			using(StreamReader psv = new StreamReader(filename)) {
+				table = File.Exists(filename) ?
+					ParsePSV.GetTable(psv , filename) :
 					null;
 			}
-			if (table != null) {
+			if(table != null) {
 				Shell.Repl(table);
 			}
 			else {
