@@ -1,0 +1,6 @@
+C:\Users\bmuk\Code\Visual Studio 2013\DatabaseExtraCredit\Application\bin\Debug\Application.exe.config
+C:\Users\bmuk\Code\Visual Studio 2013\DatabaseExtraCredit\Application\obj\Debug\Application.csprojResolveAssemblyReference.cache
+C:\Users\bmuk\Code\Visual Studio 2013\DatabaseExtraCredit\Application\bin\Debug\Application.exe
+C:\Users\bmuk\Code\Visual Studio 2013\DatabaseExtraCredit\Application\bin\Debug\Application.pdb
+C:\Users\bmuk\Code\Visual Studio 2013\DatabaseExtraCredit\Application\obj\Debug\Application.exe
+C:\Users\bmuk\Code\Visual Studio 2013\DatabaseExtraCredit\Application\obj\Debug\Application.pdb
