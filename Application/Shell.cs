@@ -4,7 +4,17 @@ namespace Application {
 	static class Shell {
 
 		public static void Repl(Table table) {
-			Console.WriteLine("REPL");
+			while (true) {
+				DisplayPrompt();
+				var command = Console.ReadLine();
+				if (command == "quit") {
+					break;
+				}
+				else {
+					Console.WriteLine("command is {0}", command);
+				}
+			}
+			Console.WriteLine("quitting...");
 		}
 
 		private static void DisplayPrompt() {
