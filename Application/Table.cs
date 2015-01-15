@@ -34,6 +34,10 @@ namespace Application {
 			this.Headers = headers;
 		}
 
+		/// <summary>
+		/// Sets the table entries, essentially a lines and their entries.
+		/// </summary>
+		/// <param name="entries">The list of list or lines of entries.</param>
 		public void SetTableEntries(List<List<string>> entries) {
 			this.Entries = entries;
 		}

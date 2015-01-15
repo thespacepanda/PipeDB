@@ -8,3 +8,5 @@ D:\Programming\GitHub\PipeDB\Application\bin\Debug\Application.exe.config
 D:\Programming\GitHub\PipeDB\Application\obj\Debug\Application.exe
 D:\Programming\GitHub\PipeDB\Application\obj\Debug\Application.pdb
 D:\Programming\GitHub\PipeDB\Application\obj\Debug\Application.csprojResolveAssemblyReference.cache
+D:\Programming\GitHub\PipeDB\Application\bin\Debug\Application.exe
+D:\Programming\GitHub\PipeDB\Application\bin\Debug\Application.pdb
