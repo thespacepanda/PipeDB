@@ -12,6 +12,7 @@ namespace Application {
 				"3. Exit The Program"
 			};
 			options.ForEach(option => Console.WriteLine(option));
+			Console.Write("Please enter the number which corresponds to your desired option: ");
 			var choice = Convert.ToInt32(Console.ReadLine());
 			switch(choice) {
 				case 1:
