@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace Application {
@@ -18,9 +19,11 @@ namespace Application {
 			var choice = Convert.ToInt32(Console.ReadLine());
 			switch (choice) {
 				case 1:
-					//ImportDatabase(); TODO
+					ImportDatabase();
+					break;
 				case 2:
 					//NewDatabase(); TODO
+					break;
 				case 3:
 					Environment.Exit(0);
 					break;
@@ -39,6 +42,23 @@ namespace Application {
 			Console.ForegroundColor = ConsoleColor.Red;
 			Console.Write(prompt2);
 			Console.ResetColor();
+		}
+
+		private static void ImportDatabase() {
+			Console.Write("Please specify the location of your .psv file: ");
+			var filename = Console.ReadLine();
+			Table table;
+			using (StreamReader psv = new StreamReader(filename)) {
+				table = File.Exists(filename) ? 
+					ParsePSV.GetTable(psv, filename) :
+					null;
+			}
+			if (table != null) {
+				Shell.Repl(table);
+			}
+			else {
+				ImportDatabase();
+			}
 		}
 	}
 }

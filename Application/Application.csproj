@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="Menu.cs" />
     <Compile Include="ParsePSV.cs" />
+    <Compile Include="Shell.cs" />
     <Compile Include="Table.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
