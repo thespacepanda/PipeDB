@@ -191,3 +191,7 @@ FakesAssemblies/
 
 # Visual Studio 6 workspace options file
 *.opt
+
+Application/.Application.csproj.swp
+DatabaseExtraCredit.v12.suo
+Application/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache
