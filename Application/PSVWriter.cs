@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.IO;
 using System.Text;
-using System.Threading.Tasks;
-using System.IO;
 
 namespace Application {
-	
+
 	/// <summary>
 	/// Handles the writing of the PSV file from a given table.
 	/// </summary>
@@ -51,7 +47,7 @@ namespace Application {
 					}
 
 					this.BuiltFile.Insert(0 , line + "\n");
-				}  
+				}
 			}
 			else {
 				//TODO: Prompt for file overwrite. handle console out else where.

@@ -1,0 +1,5 @@
+﻿
+namespace Application {
+	class CommandOptions {
+	}
+}
