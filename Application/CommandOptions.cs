@@ -37,11 +37,11 @@ namespace Application {
 					}
 				}
 				else if(this.OrigFileLocation == "-h") {
-					//TODO: Display the help menue.
+					//TODO: Display the help menu.
 				}
 			}
 			else {
-				//. Present the Menue upon entry of the program.
+				//. Present the Menu upon entry of the program.
 				Menu.PresentMenu();
 			}
 		}
