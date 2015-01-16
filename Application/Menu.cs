@@ -41,7 +41,8 @@ namespace Application {
 					null;
 			}
 			if (table != null) {
-				Shell.Repl(table);
+				var shell = new Shell(table);
+				shell.Repl();
 			}
 			else {
 				ImportDatabase();

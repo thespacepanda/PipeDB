@@ -2,6 +2,9 @@
 
 namespace Application {
 
+	/// <summary>
+	/// Represents the command types a user could enter. 
+	/// </summary>
 	enum Command {
 		Create,
 		Read,
@@ -11,9 +14,25 @@ namespace Application {
 		Nothing
 	};
 
-	static class Shell {
+	/// <summary>
+	/// Interprets and executes CRUD commands on the given table.
+	/// </summary>
+	class Shell {
 
-		public static void Repl(Table table) {
+		/// <summary>
+		/// The Database the user will be interacting with.
+		/// </summary>
+		private Table Database;
+
+		public Shell(Table table) {
+			this.Database = table;
+		}
+
+		/// <summary>
+		/// Main entry point for the Read, Eval, Print, Loop.
+		/// </summary>
+		/// <param name="table"></param>
+		public void Repl() {
 			while (true) {
 				var command = Read();
 				var result = Evaluate(command);
@@ -24,6 +43,9 @@ namespace Application {
 			}
 		}
 
+		/// <summary>
+		/// Helper function to show the fancy prompt to the screen.
+		/// </summary>
 		private static void DisplayPrompt() {
 			var prompt1 = "{ ~ }";
 			var prompt2 = "  » ";
@@ -34,12 +56,22 @@ namespace Application {
 			Console.ResetColor();
 		}
 
+		/// <summary>
+		/// Reads a string from the user and interprets it as a Command.
+		/// </summary>
+		/// <returns></returns>
 		private static Command Read() {
 			DisplayPrompt();
 			var command = Console.ReadLine();
 			return Interpret(command);
 		}
 
+		/// <summary>
+		/// Maps strings to Commands (matches on first word).
+		/// Returns Command.Nothing if it cannot find a match.
+		/// </summary>
+		/// <param name="command"></param>
+		/// <returns></returns>
 		private static Command Interpret(string command) {
 			switch (command.Split()[0].ToLower()) {
 				case "create":
@@ -57,6 +89,11 @@ namespace Application {
 			}
 		}
 
+		/// <summary>
+		/// Executes supplied command on the shell's table.
+		/// </summary>
+		/// <param name="command"></param>
+		/// <returns></returns>
 		private static string Evaluate(Command command) {
 			// TODO interact with Database
 			switch (command) {
@@ -77,6 +114,10 @@ namespace Application {
 			}
 		}
 
+		/// <summary>
+		/// Prints the output from Evaluate to the console.
+		/// </summary>
+		/// <param name="result"></param>
 		private static void Print(string result) {
 			Console.WriteLine(result);
 		}
