@@ -68,9 +68,6 @@ namespace Application {
 			Console.Write(pushed);
 		}
 
-
-
-
 		/// <summary>
 		/// Reads a string from the user and interprets it as a Command.
 		/// </summary>
@@ -127,9 +124,26 @@ namespace Application {
 						return PushToPrompt("create" , Command.Create);
 					}
 				case Command.Read:
-					return "This will read rows from the database (query).";
+					try {
+						var columnAndQuery = ParseArgsRead(args);
+						var column = columnAndQuery.Item1;
+						var query = columnAndQuery.Item2;
+						if (column == -1) {
+							var rowsThatMatch = this.Database.Read(query);
+							return String.Format("{0}" , rowsThatMatch);
+						}
+						var columnsThatMatch = this.Database.Read(column , query);
+						return String.Format("{0}" , columnsThatMatch);
+					}
+					catch (ArgumentException) {
+						return PushToPrompt("read" , Command.Read);
+					}
 				case Command.Update:
-					return "This will update a row.";
+					try {
+						var diffAndQuery = ParseArgsUpdate(args);
+						var diff = diffAndQuery.Item1;
+						var query = diffAndQuery.Item2;
+					}
 				case Command.Delete:
 					return "This will delete a row.";
 				case Command.Quit:
@@ -151,6 +165,17 @@ namespace Application {
 		}
 
 		/// <summary>
+		/// Message that's printed out when user passes an argument which isn't the
+		/// same length as the table's header.
+		/// </summary>
+		private string WrongNumberOfValues = "Rows must provide values for every column in the header.";
+
+		/// <summary>
+		/// Message that's printed when user passes a malformed row.
+		/// </summary>
+		private string MalformedRow = "Rows look like this: {1, 2, 3, 4}";
+
+		/// <summary>
 		/// Parses the arguments to the Create function.
 		/// Throws an ArgumentException if the arguments are malformed.
 		/// </summary>
@@ -167,9 +192,17 @@ namespace Application {
 						.Subscribe(arg => newRow.Add(arg.Where(notCurly).ToString()));
 					return newRow;
 				}
-				throw new ArgumentException("Rows must provide values for every column in the header." , "args");
+				throw Error(WrongNumberOfValues , "arg");
 			}
-			throw new ArgumentException("Rows look like this: {1, 2, 3, 4}" , "args");
+			throw Error(MalformedRow , "arg");
+		}
+
+		private Tuple<int , Predicate<List<string>>> ParseArgsRead(IEnumerable<string> args) {
+			throw new NotImplementedException();
+		}
+
+		private Tuple<Tuple<string , string> , Predicate<List<string>>> ParseArgsUpdate(IEnumerable<string> args) {
+			throw new NotImplementedException();
 		}
 
 		/// <summary>
@@ -178,6 +211,13 @@ namespace Application {
 		/// <param name="message"></param>
 		private static void Print(string message) {
 			Console.WriteLine(message);
+		}
+
+		private static Exception Error(string errorMessage , string variable) {
+			Console.ForegroundColor = ConsoleColor.Red;
+			Print(errorMessage);
+			Console.ResetColor();
+			return new ArgumentException(errorMessage , variable);
 		}
 	}
 }
