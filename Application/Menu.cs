@@ -5,7 +5,7 @@ using System.IO;
 namespace Application {
 
 	static class Menu {
-		public static void PresentMenu(string[] args) {
+		public static void PresentMenu() {
 			var options = new List<string>() {
 				"1. Import Database",
 				"2. Create New Database",
@@ -25,7 +25,7 @@ namespace Application {
 					Environment.Exit(0);
 					break;
 				default:
-					PresentMenu(args);
+					PresentMenu();
 					Console.WriteLine("Please enter a valid option.");
 					break;
 			}
