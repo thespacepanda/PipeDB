@@ -6,11 +6,11 @@ namespace Application {
 	/// Represents the command types a user could enter. 
 	/// </summary>
 	enum Command {
-		Create,
-		Read,
-		Update,
-		Delete,
-		Quit,
+		Create ,
+		Read ,
+		Update ,
+		Delete ,
+		Quit ,
 		Nothing
 	};
 
@@ -33,14 +33,12 @@ namespace Application {
 		/// </summary>
 		/// <param name="table"></param>
 		public void Repl() {
-			while (true) {
+			var result = string.Empty;
+			do {
 				var command = Read();
-				var result = Evaluate(command);
+				result = Evaluate(command);
 				Print(result);
-				if (result == "quitting...") {
-					break;
-				}
-			}
+			} while(!(result == "quitting..."));
 		}
 
 		/// <summary>
@@ -73,7 +71,7 @@ namespace Application {
 		/// <param name="command"></param>
 		/// <returns></returns>
 		private static Command Interpret(string command) {
-			switch (command.Split()[0].ToLower()) {
+			switch(command.Split()[0].ToLower()) {
 				case "create":
 					return Command.Create;
 				case "read":
@@ -96,7 +94,7 @@ namespace Application {
 		/// <returns></returns>
 		private static string Evaluate(Command command) {
 			// TODO interact with Database
-			switch (command) {
+			switch(command) {
 				case Command.Create:
 					return "This will create a row.";
 				case Command.Read:

@@ -32,7 +32,8 @@ namespace Application {
 					//. Handle importing the PSV file type.
 					using(var sr = new StreamReader(this.OrigFileLocation)) {
 						var table = ParsePSV.GetTable(sr , this.OrigFileLocation);
-						Shell.Repl(table);
+						var shell = new Shell(table);
+						shell.Repl();
 					}
 				}
 				else if(this.OrigFileLocation == "-h") {
