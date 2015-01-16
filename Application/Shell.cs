@@ -105,6 +105,8 @@ namespace Application {
 					return "This will delete a row.";
 				case Command.Quit:
 					return "quitting...";
+
+				//. The below case Command.Nothing could be handled in the default case.
 				case Command.Nothing:
 					return "I don't understand that command; try Create, Read, Update, Delete, or Quit.";
 				default:
