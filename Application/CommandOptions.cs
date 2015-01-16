@@ -1,6 +1,4 @@
 ﻿using System.IO;
-using System.Linq;
-using System.Collections.Generic;
 
 namespace Application {
 	class CommandOptions {
@@ -9,7 +7,7 @@ namespace Application {
 		/// File location of the PSV or CSV.
 		/// </summary>
 		public string OrigFileLocation { get; set; }
-		
+
 		/// <summary>
 		/// Supported file types.
 		/// </summary>
@@ -34,7 +32,10 @@ namespace Application {
 				}
 				else if(this.OrigFileLocation == "-h") {
 					//TODO: Display the help menue.
-				} 
+				}
+			}
+			else {
+				Menu.PresentMenu();
 			}
 		}
 	}
