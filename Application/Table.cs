@@ -101,7 +101,7 @@ namespace Application {
 		}
 
 		/// <summary>
-		/// Deletes rows which match a query, but I don't think asr
+		/// Deletes rows which match a query.
 		/// </summary>
 		/// <param name="query"></param>
 		/// <returns></returns>

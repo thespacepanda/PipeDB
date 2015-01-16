@@ -143,9 +143,25 @@ namespace Application {
 						var diffAndQuery = ParseArgsUpdate(args);
 						var diff = diffAndQuery.Item1;
 						var query = diffAndQuery.Item2;
+						if (this.Database.Update(diff , query)) {
+							return "Updated Database";
+						}
+						return "Type not in Headers.";
+					}
+					catch (ArgumentException) {
+						return PushToPrompt("update" , Command.Read);
 					}
 				case Command.Delete:
-					return "This will delete a row.";
+					try {
+						var query = ParseArgsDelete(args);
+						if (this.Database.Delete(query)) {
+							return "Deleted all that matched";
+						}
+						return "Unexpected Deletion error";
+					}
+					catch (ArgumentException) {
+						return PushToPrompt("delete" , Command.Delete);
+					}
 				case Command.Quit:
 					return "quitting...";
 				case Command.Nothing:
