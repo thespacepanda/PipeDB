@@ -21,5 +21,24 @@ namespace Application {
 				" -Exits the Pipe program \n" //10
 			);
 		}
+
+		public static void DisplayReplHelp(Command command) {
+			switch(command) {
+				case Command.Create:
+					break;
+				case Command.Read:
+					break;
+				case Command.Update:
+					break;
+				case Command.Delete:
+					break;
+				case Command.Quit:
+					break;
+				case Command.Nothing:
+					break;
+				default:
+					break;
+			}
+		}
 	}
 }
