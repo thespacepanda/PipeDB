@@ -3,12 +3,18 @@
 namespace Application {
     class HelpDocs {
         public static void DisplayHelp() {
-            Console.WriteLine("{0}\n{1}\n{2}\n{3}\n{4}",
-                "usage:  [args] /?",
-                "Author: Date: Description: ",
-                "1 : Import\tPipe \"fileName.psv\" \n\tImport a PSV file from the specified path.",
-                "2 : Convert\t Pipe \"filename.csv\"\n\tConverts a CSV file to PSV and stores it in the same location.",
-                "3 : Exit\t Pipe Exit\n\tExits the Pipe program "
+            Console.WriteLine("{0}\n{1}\n{2, -15}{3, -19}\n{4}\n\n{5, -15}{6, -19}\n{7}\n{8,-15}{9,-19}\n{10}\n",
+                "usage:  [args] /?\n", //0
+                "Author: We Know Work\tDate: 01.16.2014\nDescription: Basic CRUD database manipulator \n", //1
+                "1 : Import", //2
+                "Pipe \"fileName.psv\"", //3
+                " -Import a PSV file from the specified path.", //4
+                "2 : Convert", //5
+                "Pipe \"filename.csv\"", //6
+                " -Converts a CSV file to PSV and stores it in the same location.\n", //7
+                "3 : Exit", //8
+                "Pipe \"Exit\"", //9
+                " -Exits the Pipe program \n" //10
                 );
         }
     }
