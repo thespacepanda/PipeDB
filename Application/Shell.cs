@@ -133,10 +133,8 @@ namespace Application {
 				case Command.Delete:
 					try {
 						var query = this.Parse.Delete(args);
-						if (this.Database.Delete(query)) {
-							return "Deleted all that matched";
-						}
-						return "Unexpected Deletion error";
+						this.Database.Delete(query);
+						return "Deleted all that matched.";
 					}
 					catch (ArgumentException) {
 						return String.Empty;

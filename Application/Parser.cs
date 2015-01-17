@@ -171,26 +171,7 @@ namespace Application {
 			var diff = AssignmentToDiff(assignmentClause);
 			return new Tuple<Tuple<int , string> , Predicate<List<string>>>(diff , query);
 		}
-
-		/// <summary>
-		/// Splits the IEnumerable<string> on the value "where", and returns a List
-		/// of the two resultant IEnumerable<string>s.
-		/// </summary>
-		/// <param name="tiedClauses"></param>
-		/// <returns></returns>
-		private List<IEnumerable<string>> ClauseSeparator(IEnumerable<string> tiedClauses) {
-			var assignmentClause = tiedClauses.Take(3);
-			var whereClause = tiedClauses.Skip(4);
-			var clauses = new List<IEnumerable<string>>();
-			clauses.Add(assignmentClause);
-			clauses.Add(whereClause);
-			return clauses;
-		}
-
-		public Predicate<List<string>> Delete(IEnumerable<string> args) {
-			throw new NotImplementedException();
-		}
-
+		
 		/// <summary>
 		/// Parses the provided clause into a tuple which represents a diff from the
 		/// column name (represented by the index) and the new value. Throws an
@@ -209,6 +190,38 @@ namespace Application {
 			return null;
 		}
 
+		/// <summary>
+		/// Splits the IEnumerable<string> on the value "where", and returns a List
+		/// of the two resultant IEnumerable<string>s.
+		/// </summary>
+		/// <param name="tiedClauses"></param>
+		/// <returns></returns>
+		private List<IEnumerable<string>> ClauseSeparator(IEnumerable<string> tiedClauses) {
+			var assignmentClause = tiedClauses.Take(3);
+			var whereClause = tiedClauses.Skip(4);
+			var clauses = new List<IEnumerable<string>>();
+			clauses.Add(assignmentClause);
+			clauses.Add(whereClause);
+			return clauses;
+		}
 
+		/// <summary>
+		/// Parses the arguments to the delete command, and returns an object which
+		/// can then be passed to Table.Delete(). Throws an ArgumentException if they
+		/// are invalid.
+		/// </summary>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		public Predicate<List<string>> Delete(IEnumerable<string> args) {
+			if (args.Count() == 0) {
+				throw Error.ArgumentException(ErrorType.NoArgument);
+			}
+			if (!args.Contains("where")) {
+				throw Error.ArgumentException(ErrorType.MalformedQuery);
+			}
+			var whereClause = args.Skip(1);
+			var query = WhereToQuery(whereClause);
+			return query;
+		}
 	}
 }

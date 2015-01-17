@@ -112,16 +112,8 @@ namespace Application {
 		/// </summary>
 		/// <param name="query"></param>
 		/// <returns></returns>
-		public bool Delete(Predicate<List<string>> query) {
-			bool e;
-			try {
-				this.Entries.RemoveAll(query);
-				e = true;
-			}
-			finally {
-				e = false;
-			}
-			return e; 
+		public void Delete(Predicate<List<string>> query) {
+			this.Entries.RemoveAll(query);
 		}
 	}
 }
