@@ -37,7 +37,8 @@ namespace Application {
 		}
 
 		/// <summary>
-		/// Parses the arguments to the Create function.
+		/// Parses the arguments to the Create function, and returns an object
+		/// which can then be passed to Table.Create().
 		/// Throws an ArgumentException if the arguments are malformed.
 		/// </summary>
 		/// <param name="args"></param>
@@ -74,7 +75,8 @@ namespace Application {
 		}
 
 		/// <summary>
-		/// Parses the arguments to Read.
+		/// Parses the arguments to Read, and returns an object which can then
+		/// be passed to Table.Read().
 		/// Throws an ArgumentException if they are malformed.
 		/// </summary>
 		/// <param name="args"></param>
@@ -98,8 +100,8 @@ namespace Application {
 		}
 
 		/// <summary>
-		/// If the given string is a valid header column, returns the index of said column.
-		/// Throws and ArgumentException if not.
+		/// If the given string is a valid header column, returns the index of 
+		/// said column. Throws and ArgumentException if not.
 		/// </summary>
 		/// <param name="column"></param>
 		/// <returns></returns>
@@ -151,6 +153,13 @@ namespace Application {
 			}
 		}
 
+		/// <summary>
+		/// Parses the provided arguments to Update and returns a tuple object
+		/// which can then be passed into Table.Update(). Throws an ArgumentException
+		/// if they are invalid.
+		/// </summary>
+		/// <param name="args"></param>
+		/// <returns></returns>
 		public Tuple<Tuple<int , string> , Predicate<List<string>>> Update(IEnumerable<string> args) {
 			if (args.Count() != 7) {
 				throw Error.ArgumentException(ErrorType.MalformedUpdate);
@@ -163,6 +172,12 @@ namespace Application {
 			return new Tuple<Tuple<int , string> , Predicate<List<string>>>(diff , query);
 		}
 
+		/// <summary>
+		/// Splits the IEnumerable<string> on the value "where", and returns a List
+		/// of the two resultant IEnumerable<string>s.
+		/// </summary>
+		/// <param name="tiedClauses"></param>
+		/// <returns></returns>
 		private List<IEnumerable<string>> ClauseSeparator(IEnumerable<string> tiedClauses) {
 			var assignmentClause = tiedClauses.Take(3);
 			var whereClause = tiedClauses.Skip(4);
