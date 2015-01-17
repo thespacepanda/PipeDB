@@ -5,18 +5,6 @@ using System.Linq;
 namespace Application {
 
 	/// <summary>
-	/// Represents the command types a user could enter. 
-	/// </summary>
-	enum Command {
-		Create ,
-		Read ,
-		Update ,
-		Delete ,
-		Quit ,
-		Nothing
-	};
-
-	/// <summary>
 	/// Interprets and executes CRUD commands on the given table.
 	/// </summary>
 	class Shell {
@@ -26,9 +14,13 @@ namespace Application {
 		/// </summary>
 		private Table Database;
 
+		private Parser Parse;
+
 		public Shell(Table table) {
 			this.Database = table;
+			this.Parse = new Parser(this.Database.Headers);
 		}
+
 
 		/// <summary>
 		/// Main entry point for the Read, Eval, Print, Loop.
@@ -100,7 +92,7 @@ namespace Application {
 			switch (verb) {
 				case Command.Create:
 					try {
-						var newRow = ParseArgsCreate(args);
+						var newRow = this.Parse.Create(args);
 						if (this.Database.Create(newRow)) {
 							var stringOfRow = String.Join(" | " , newRow.ToArray());
 							return String.Format("Row {0} added" , stringOfRow);
@@ -113,7 +105,7 @@ namespace Application {
 					}
 				case Command.Read:
 					try {
-						var columnAndQuery = ParseArgsRead(args);
+						var columnAndQuery = this.Parse.Read(args);
 						var column = columnAndQuery.Item1;
 						var query = columnAndQuery.Item2;
 						var rowsThatMatch = this.Database.Read(column , query);
@@ -129,7 +121,7 @@ namespace Application {
 					}
 				case Command.Update:
 					try {
-						var diffAndQuery = ParseArgsUpdate(args);
+						var diffAndQuery = this.Parse.Update(args);
 						var diff = diffAndQuery.Item1;
 						var query = diffAndQuery.Item2;
 						if (this.Database.Update(diff , query)) {
@@ -142,7 +134,7 @@ namespace Application {
 					}
 				case Command.Delete:
 					try {
-						var query = ParseArgsDelete(args);
+						var query = this.Parse.Delete(args);
 						if (this.Database.Delete(query)) {
 							return "Deleted all that matched";
 						}
@@ -166,89 +158,6 @@ namespace Application {
 				default:
 					return "This should never happen.";
 			}
-		}
-
-		/// <summary>
-		/// Message that's printed out when user passes an argument which isn't the
-		/// same length as the table's header.
-		/// </summary>
-		private string WrongNumberOfValues = "Rows must provide values for every column in the header.";
-
-		/// <summary>
-		/// Message that's printed when user passes a malformed row.
-		/// </summary>
-		private string MalformedRow = "Rows look like this: {1, 2, 3, 4}";
-
-		/// <summary>
-		/// Parses the arguments to the Create function.
-		/// Throws an ArgumentException if the arguments are malformed.
-		/// </summary>
-		/// <param name="args"></param>
-		/// <returns></returns>
-		private List<string> ParseArgsCreate(IEnumerable<string> args) {
-			var newRow = new List<string>();
-			if (args.First().Contains('{') && args.Last().Contains('}')) {
-				if (args.Count() == this.Database.Headers.Count()) {
-					// TODO handle escape sequences for '{' and '}' literals
-					foreach (string arg in args) {
-						var stripCurly = arg.Replace("{" , String.Empty);
-						stripCurly = stripCurly.Replace("}" , String.Empty);
-						var stripComma = stripCurly.Replace("," , String.Empty);
-						newRow.Add(stripComma);
-					}
-					return newRow;
-				}
-				throw Error(WrongNumberOfValues , "args");
-			}
-			throw Error(MalformedRow , "args");
-		}
-
-		private string MalformedQuery = "Queries must be comprised of a single header name, a =, and a value.";
-
-		private string NoMatchForHeader() {
-			var message = "Couldn't find a header with that name. The headers I know about are:\n {0}";
-			var headerString = " | ";
-			foreach (string header in this.Database.Headers) {
-				headerString += header;
-				headerString += " | ";
-			}
-			return String.Format(message , headerString);
-		}
-
-		private Tuple<int , Predicate<List<string>>> ParseArgsRead(IEnumerable<string> args) {
-			// we need to check if the first arg is *; if not get the column
-			// then we parse the where statement to form the query
-			var column = -1;
-			Predicate<List<string>> query = null;
-			if (args.Count() == 0) {
-				return new Tuple<int , Predicate<List<string>>>(column , query);
-			}
-			else if (args.First() != "*") {
-				if (!this.Database.Headers.Contains(args.First())) {
-					throw Error(NoMatchForHeader() , "args");
-				}
-				column = this.Database.Headers.IndexOf(args.First());
-			}
-			if (args.Contains("where")) {
-				var whereClause = args.Skip(2);
-				if (whereClause.Count() != 3) {
-					throw Error(MalformedQuery , "args");
-				}
-				else if (!this.Database.Headers.Contains(whereClause.First())) {
-					throw Error(NoMatchForHeader() , "args");
-				}
-				var queryHeader = this.Database.Headers.IndexOf(whereClause.First());
-				query = row => row[queryHeader] == whereClause.Last();
-			}
-			return new Tuple<int , Predicate<List<string>>>(column , query);
-		}
-
-		private Tuple<Tuple<string , string> , Predicate<List<string>>> ParseArgsUpdate(IEnumerable<string> args) {
-			throw new NotImplementedException();
-		}
-
-		private Predicate<List<string>> ParseArgsDelete(IEnumerable<string> args) {
-			throw new NotImplementedException();
 		}
 
 		/// <summary>

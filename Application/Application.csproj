@@ -44,9 +44,11 @@
   <ItemGroup>
     <Compile Include="CommandOptions.cs" />
     <Compile Include="CsvConverter.cs" />
+    <Compile Include="Error.cs" />
     <Compile Include="HelpDocs.cs" />
     <Compile Include="Menu.cs" />
     <Compile Include="ParsePSV.cs" />
+    <Compile Include="Parser.cs" />
     <Compile Include="Shell.cs" />
     <Compile Include="PSVWriter.cs" />
     <Compile Include="Table.cs" />
