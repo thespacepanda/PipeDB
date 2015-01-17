@@ -12,9 +12,9 @@ namespace Application {
 				"3. Exit The Program"
 			};
 			options.ForEach(option => Console.WriteLine(option));
-			Console.Write("Please enter the number which corresponds to your desired option: ");
+			Console.Write("$> ");
 			var choice = Convert.ToInt32(Console.ReadLine());
-			switch (choice) {
+			switch(choice) {
 				case 1:
 					ImportDatabase();
 					break;
@@ -35,12 +35,12 @@ namespace Application {
 			Console.Write("Please specify the location of your .psv file: ");
 			var filename = Console.ReadLine();
 			Table table;
-			using (StreamReader psv = new StreamReader(filename)) {
+			using(StreamReader psv = new StreamReader(filename)) {
 				table = File.Exists(filename) ?
 					ParsePSV.GetTable(psv , filename) :
 					null;
 			}
-			if (table != null) {
+			if(table != null) {
 				var shell = new Shell(table);
 				shell.Repl();
 			}
