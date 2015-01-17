@@ -18,9 +18,9 @@ namespace Application {
 		/// <returns></returns>
 		public static Table GetTable(StreamReader psv , string filePath) {
 			var table = new Table();
+			table.TableName = filePath;
 			table.SetTableHeaders(GetHeaders(psv));
 			table.SetTableEntries(GetEntries(psv));
-			psv.Close();
 			return table;
 		}
 

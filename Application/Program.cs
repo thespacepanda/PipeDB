@@ -1,8 +1,7 @@
 ﻿namespace Application {
 	class Program {
 		static void Main(string[] args) {
-			Menu.PresentMenu();
-			//HelpDocs.DisplayHelp();
+			var cOptions = new CommandOptions(args);
 		}
 	}
 }
