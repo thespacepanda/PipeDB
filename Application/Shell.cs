@@ -46,7 +46,7 @@ namespace Application {
 		/// <summary>
 		/// Helper function to show the fancy prompt to the screen.
 		/// </summary>
-		private static void DisplayPrompt(string pushed = "") {
+		private static void DisplayPrompt() {
 			var prompt1 = "{ ~ }";
 			var prompt2 = "  » ";
 			Console.ForegroundColor = ConsoleColor.Cyan;
@@ -54,7 +54,6 @@ namespace Application {
 			Console.ForegroundColor = ConsoleColor.Red;
 			Console.Write(prompt2);
 			Console.ResetColor();
-			Console.Write(pushed);
 		}
 
 		/// <summary>
@@ -62,7 +61,7 @@ namespace Application {
 		/// </summary>
 		/// <returns></returns>
 		private static string Read(string pushed = "") {
-			DisplayPrompt(pushed);
+			DisplayPrompt();
 			var command = Console.ReadLine();
 			return pushed + command;
 		}
@@ -110,7 +109,7 @@ namespace Application {
 						return "Rows must provide values for every column in the header.";
 					}
 					catch(ArgumentException) {
-						return PushToPrompt("create" , Command.Create);
+						return String.Empty;
 					}
 				case Command.Read:
 					try {
@@ -135,7 +134,7 @@ namespace Application {
 						return columnString;
 					}
 					catch(ArgumentException) {
-						return PushToPrompt("read" , Command.Read);
+						return String.Empty;
 					}
 				case Command.Update:
 					try {
@@ -148,7 +147,7 @@ namespace Application {
 						return "Type not in Headers.";
 					}
 					catch(ArgumentException) {
-						return PushToPrompt("update" , Command.Read);
+						return String.Empty;
 					}
 				case Command.Delete:
 					try {
@@ -159,7 +158,7 @@ namespace Application {
 						return "Unexpected Deletion error";
 					}
 					catch(ArgumentException) {
-						return PushToPrompt("delete" , Command.Delete);
+						return String.Empty;
 					}
 				case Command.Quit:
 					return "quitting...";
@@ -176,15 +175,6 @@ namespace Application {
 				default:
 					return "This should never happen.";
 			}
-		}
-
-		private string PushToPrompt(string pushed , Command verb) {
-			var command = Read(pushed);
-			var message = Evaluate(command);
-			Print(message);
-			Repl();
-			// make sure we break out of nested Repl() call when the user quits
-			return "quitting...";
 		}
 
 		/// <summary>
