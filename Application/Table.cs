@@ -76,25 +76,18 @@ namespace Application {
 		/// </summary>
 		/// <param name="query"></param>
 		/// <returns></returns>
-		public List<List<string>> Read(Predicate<List<string>> query = null) {
+		public List<List<string>> Read(int column = -1, Predicate<List<string>> query = null) {
 			if (query == null) {
 				query = _ => true;
 			}
-			return this.Entries
-				.FindAll(query)
-				.ToList();
-		}
-
-		/// <summary>
-		/// Returns the values of every matching row at the provided column.
-		/// </summary>
-		/// <param name="column"></param>
-		/// <param name="query"></param>
-		/// <returns></returns>
-		public List<string> Read(int column , Predicate<List<string>> query = null) {
-			return Read(query)
-				.Select(row => row[column])
-				.ToList();
+			var rowMatches = this.Entries.FindAll(query);
+			if (column == -1) {
+				return rowMatches.ToList();
+			}
+			else {
+				// looks hairy but I need to wrap the inside values in a list.
+				return rowMatches.Select(r => Enumerable.Repeat(r[column], 1).ToList()).ToList();
+			}
 		}
 
 		/// <summary>
@@ -107,7 +100,7 @@ namespace Application {
 		/// <returns></returns>
 		public bool Update(Tuple<string , string> diff, Predicate<List<string>> query) {
 			if (this.Headers.Contains(diff.Item1)) {
-				Read(query)
+				Read(-1, query)
 					.Select(row => row[this.Headers.IndexOf(diff.Item1)] = diff.Item2);
 				return true;
 			}
