@@ -36,7 +36,7 @@ namespace Application {
 		/// </summary>
 		/// <param name="table"></param>
 		public void Repl() {
-			while (true) {
+			while(true) {
 				var command = Read();
 				var message = Evaluate(command);
 				// using "quitting..." as a flag, never gets shown to the user
@@ -47,7 +47,7 @@ namespace Application {
 				// nested Repl() method). Hopefully this isn't a memory overflow spot.
 
 				// TODO possible race condition
-				if (message == "quitting...") {
+				if(message == "quitting...") {
 					break;
 				}
 				Print(message);
@@ -86,7 +86,7 @@ namespace Application {
 		/// <returns></returns>
 		private static Command Interpret(string command) {
 			var words = command.ToLower().Split();
-			switch (words[0]) {
+			switch(words[0]) {
 				case "create":
 					return Command.Create;
 				case "read":
@@ -110,17 +110,17 @@ namespace Application {
 		private string Evaluate(string command) {
 			var verb = Interpret(command);
 			var args = command.ToLower().Split().Skip(1);
-			switch (verb) {
+			switch(verb) {
 				case Command.Create:
 					try {
 						var newRow = ParseArgsCreate(args);
-						if (this.Database.Create(newRow)) {
+						if(this.Database.Create(newRow)) {
 							return String.Format("Row {0} added" , newRow);
 						}
 						// This should be handled by the Argument parser, but just in case
 						return "Rows must provide values for every column in the header.";
 					}
-					catch (ArgumentException) {
+					catch(ArgumentException) {
 						return PushToPrompt("create" , Command.Create);
 					}
 				case Command.Read:
@@ -128,14 +128,14 @@ namespace Application {
 						var columnAndQuery = ParseArgsRead(args);
 						var column = columnAndQuery.Item1;
 						var query = columnAndQuery.Item2;
-						if (column == -1) {
+						if(column == -1) {
 							var rowsThatMatch = this.Database.Read(query);
 							return String.Format("{0}" , rowsThatMatch);
 						}
 						var columnsThatMatch = this.Database.Read(column , query);
 						return String.Format("{0}" , columnsThatMatch);
 					}
-					catch (ArgumentException) {
+					catch(ArgumentException) {
 						return PushToPrompt("read" , Command.Read);
 					}
 				case Command.Update:
@@ -143,23 +143,23 @@ namespace Application {
 						var diffAndQuery = ParseArgsUpdate(args);
 						var diff = diffAndQuery.Item1;
 						var query = diffAndQuery.Item2;
-						if (this.Database.Update(diff , query)) {
+						if(this.Database.Update(diff , query)) {
 							return "Updated Database";
 						}
 						return "Type not in Headers.";
 					}
-					catch (ArgumentException) {
+					catch(ArgumentException) {
 						return PushToPrompt("update" , Command.Read);
 					}
 				case Command.Delete:
 					try {
 						var query = ParseArgsDelete(args);
-						if (this.Database.Delete(query)) {
+						if(this.Database.Delete(query)) {
 							return "Deleted all that matched";
 						}
 						return "Unexpected Deletion error";
 					}
-					catch (ArgumentException) {
+					catch(ArgumentException) {
 						return PushToPrompt("delete" , Command.Delete);
 					}
 				case Command.Quit:
@@ -199,8 +199,8 @@ namespace Application {
 		/// <returns></returns>
 		private List<string> ParseArgsCreate(IEnumerable<string> args) {
 			var newRow = new List<string>();
-			if (args.First().Contains('{') && args.Last().Contains('}')) {
-				if (args.Count() == this.Database.Headers.Count()) {
+			if(args.First().Contains('{') && args.Last().Contains('}')) {
+				if(args.Count() == this.Database.Headers.Count()) {
 					// TODO handle escape sequences for '{' and '}' literals
 					Func<char , bool> notCurly = c => c != '{' && c != '}';
 					args
