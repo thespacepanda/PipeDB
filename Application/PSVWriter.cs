@@ -11,7 +11,7 @@ namespace Application {
 		/// <summary>
 		/// Table of the writer to work with.
 		/// </summary>
-		private Table Table = new Table();
+		private Table Table;
 
 		/// <summary>
 		/// Does the table file exist?

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
+using System.IO;
 
 namespace Application {
 
@@ -8,6 +9,20 @@ namespace Application {
 	/// Generic data class for data entry.
 	/// </summary>
 	class Table {
+
+		/// <summary>
+		/// File the database reads from and writes to.
+		/// </summary>
+		private StreamReader PersistanceFile;
+
+		/// <summary>
+		/// Constructor; Takes the StreamReader of the persistance file.
+		/// </summary>
+		/// <param name="psv"></param>
+		/// <returns></returns>
+		public Table(StreamReader psv) {
+			this.PersistanceFile = psv;
+		}
 
 		/// <summary>
 		/// Name of the database or file name.

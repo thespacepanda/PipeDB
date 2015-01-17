@@ -17,7 +17,7 @@ namespace Application {
 		/// <param name="filePath">The file path.</param>
 		/// <returns></returns>
 		public static Table GetTable(StreamReader psv , string filePath) {
-			var table = new Table();
+			var table = new Table(psv);
 			table.TableName = filePath;
 			table.SetTableHeaders(GetHeaders(psv));
 			table.SetTableEntries(GetEntries(psv));

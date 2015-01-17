@@ -14,7 +14,7 @@ namespace Application {
 			options.ForEach(option => Console.WriteLine(option));
 			Console.Write("$> ");
 			var choice = Convert.ToInt32(Console.ReadLine());
-			switch(choice) {
+			switch (choice) {
 				case 1:
 					ImportDatabase();
 					break;
@@ -35,10 +35,12 @@ namespace Application {
 			Console.Write("Please specify the location of your .psv file: ");
 			var filename = Console.ReadLine();
 			Table table;
+			if (!File.Exists(filename)) {
+				Console.WriteLine("That file doesn't exist, I'm making you a new database with that filename");
+				File.Create(filename);
+			}
 			using(StreamReader psv = new StreamReader(filename)) {
-				table = File.Exists(filename) ?
-					ParsePSV.GetTable(psv , filename) :
-					null;
+				table = ParsePSV.GetTable(psv, filename);
 			}
 			if(table != null) {
 				var shell = new Shell(table);
