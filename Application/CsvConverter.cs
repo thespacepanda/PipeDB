@@ -7,11 +7,13 @@ namespace Application {
 			this.Path = path;
 		}
 		public void ConvertToPsv() {
-			var csvPath = new FileInfo(this.Path).Directory +
+			var psvPath = new FileInfo(this.Path).Directory +
 				"\\" +
 				System.IO.Path.GetFileNameWithoutExtension(this.Path) + ".psv";
 
-			using(var sw = new StreamWriter(csvPath))
+			var sw = File.Exists(psvPath) ? new StreamWriter(psvPath , true) : new StreamWriter(psvPath);
+
+			using(sw)
 			using(var sr = new StreamReader(Path)) {
 				var line = string.Empty;
 				while((line = sr.ReadLine()) != null) {

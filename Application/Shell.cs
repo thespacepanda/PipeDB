@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Application {
 
@@ -102,7 +102,7 @@ namespace Application {
 				case Command.Create:
 					try {
 						var newRow = ParseArgsCreate(args);
-						if (this.Database.Create(newRow)) {
+						if(this.Database.Create(newRow)) {
 							var stringOfRow = String.Join(" | " , newRow.ToArray());
 							return String.Format("Row {0} added" , stringOfRow);
 						}
@@ -120,7 +120,7 @@ namespace Application {
 						if(column == -1) {
 							var rowsThatMatch = this.Database.Read(query);
 							var rowString = String.Empty;
-							foreach (List<string> row in rowsThatMatch) {
+							foreach(List<string> row in rowsThatMatch) {
 								rowString += String.Join(" | " , row.ToArray());
 								rowString += "\n";
 							}
@@ -128,7 +128,7 @@ namespace Application {
 						}
 						var columnsThatMatch = this.Database.Read(column , query);
 						var columnString = String.Empty;
-						foreach (string value in columnsThatMatch) {
+						foreach(string value in columnsThatMatch) {
 							columnString += value;
 							columnString += "\n";
 						}
@@ -168,7 +168,7 @@ namespace Application {
 				case Command.Nothing:
 					//return "I don't understand that command; try Create, Read, Update, Delete, or Quit.";
 					var showHeaders = String.Empty;
-					foreach (string header in this.Database.Headers) {
+					foreach(string header in this.Database.Headers) {
 						showHeaders += header;
 						showHeaders += "\n";
 					}
@@ -206,11 +206,11 @@ namespace Application {
 		/// <returns></returns>
 		private List<string> ParseArgsCreate(IEnumerable<string> args) {
 			var newRow = new List<string>();
-			if (args.First().Contains('{') && args.Last().Contains('}')) {
-				if (args.Count() == this.Database.Headers.Count()) {
+			if(args.First().Contains('{') && args.Last().Contains('}')) {
+				if(args.Count() == this.Database.Headers.Count()) {
 					// TODO handle escape sequences for '{' and '}' literals
-					foreach (string arg in args) {
-						var stripCurly = arg.Replace("{", String.Empty);
+					foreach(string arg in args) {
+						var stripCurly = arg.Replace("{" , String.Empty);
 						stripCurly = stripCurly.Replace("}" , String.Empty);
 						var stripComma = stripCurly.Replace("," , String.Empty);
 						newRow.Add(stripComma);
@@ -227,10 +227,10 @@ namespace Application {
 		private string NoMatchForHeader = "Couldn't find a header with that name.";
 
 		private Tuple<int , Predicate<List<string>>> ParseArgsRead(IEnumerable<string> args) {
-			if (args.Contains("where")) {
+			if(args.Contains("where")) {
 				var query = args.Skip(2);
-				if (query.Count() == 3) {
-					if (this.Database.Headers.Contains(query.First())) {
+				if(query.Count() == 3) {
+					if(this.Database.Headers.Contains(query.First())) {
 						var headerLocation = this.Database.Headers.IndexOf(query.First());
 						Predicate<List<string>> matchQuery = s => s[headerLocation] == query.Last();
 						return new Tuple<int , Predicate<List<string>>>(headerLocation , matchQuery);
@@ -239,14 +239,14 @@ namespace Application {
 				}
 				throw Error(MalformedQuery , "args");
 			}
-			if (args.Count() == 0) {
+			if(args.Count() == 0) {
 				throw Error("Must give an argument." , "args");
 			}
-			if (args.First() == "*") {
+			if(args.First() == "*") {
 				return new Tuple<int , Predicate<List<string>>>(-1 , null);
 			}
-			else if (this.Database.Headers.Contains(args.First())) {
-				return new Tuple<int , Predicate<List<string>>>(this.Database.Headers.IndexOf(args.First()), null);
+			else if(this.Database.Headers.Contains(args.First())) {
+				return new Tuple<int , Predicate<List<string>>>(this.Database.Headers.IndexOf(args.First()) , null);
 			}
 			throw Error(NoMatchForHeader , "args");
 		}
