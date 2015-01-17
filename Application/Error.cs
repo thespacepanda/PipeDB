@@ -9,8 +9,10 @@ namespace Application {
 	enum ErrorType {
 		MalformedRow ,
 		MalformedQuery ,
+		MalformedAssignment ,
 		WrongNumberOfValues ,
-		NoMatchForHeader
+		NoMatchForHeader ,
+		NoArgument
 	}
 
 	/// <summary>
@@ -32,11 +34,17 @@ namespace Application {
 				case ErrorType.MalformedQuery:
 					message = "Queries must be comprised of a single header name, a =, and a value.";
 					break;
+				case ErrorType.MalformedAssignment:
+					message = "The column to update must be presented as: 'update column_name = new_value'";
+					break;
 				case ErrorType.WrongNumberOfValues:
 					message = "Rows must provide values for every column in the header.";
 					break;
 				case ErrorType.NoMatchForHeader:
 					message = "Couldn't find a header by that name; you can see the current headers by typing 'headers'";
+					break;
+				case ErrorType.NoArgument:
+					message = "Must supply an argument.";
 					break;
 				default:
 					// Defaults to saying nothing, maybe change to generic message?
