@@ -159,6 +159,13 @@ namespace Application {
 			throw new NotImplementedException();
 		}
 
+		/// <summary>
+		/// Parses the provided clause into a tuple which represents a diff from the
+		/// column name (represented by the index) and the new value. Throws an
+		/// ArgumentException if the clause is malformed.
+		/// </summary>
+		/// <param name="assignmentClause"></param>
+		/// <returns></returns>
 		private Tuple<int , string> AssignmentToDiff(IEnumerable<string> assignmentClause) {
 			if (ValidClause(assignmentClause , ErrorType.MalformedAssignment)) {
 				var columnName = assignmentClause.First();
