@@ -30,12 +30,11 @@ namespace Application {
 					cc.ConvertToPsv();
 				}
 				else if(this.OrigFileLocation.Contains(SupportedFileTypes[1])) {
+					Table table;
 					//. Handle importing the PSV file type.
-					using(var sr = new StreamReader(this.OrigFileLocation)) {
-						var table = ParsePSV.GetTable(sr , this.OrigFileLocation);
-						var shell = new Shell(table);
-						shell.Repl();
-					}
+					table = ParsePSV.GetTable(this.OrigFileLocation);
+					var shell = new Shell(table);
+					shell.Repl();
 				}
 				else if(this.OrigFileLocation == "/?") {
 					//TODO: Display the help menu.

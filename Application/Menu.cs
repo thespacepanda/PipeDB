@@ -31,24 +31,60 @@ namespace Application {
 			}
 		}
 
-		private static void ImportDatabase() {
-			Console.Write("Please specify the location of your .psv file: ");
-			var filename = Console.ReadLine();
+		private static void ImportDatabase(string filePath = null) {
+			if (String.IsNullOrEmpty(filePath)) {
+				Console.Write("Please specify the location of your .psv file: ");
+				filePath = Console.ReadLine();
+			}
 			Table table;
-			if (!File.Exists(filename)) {
+			if (!File.Exists(filePath)) {
 				Console.WriteLine("That file doesn't exist, I'm making you a new database with that filename");
-				File.Create(filename);
-			}
-			using(StreamReader psv = new StreamReader(filename)) {
-				table = ParsePSV.GetTable(psv, filename);
-			}
-			if(table != null) {
-				var shell = new Shell(table);
-				shell.Repl();
+				table = CreateDatabase(filePath);
 			}
 			else {
-				ImportDatabase();
+				try {
+					table = ParsePSV.GetTable(filePath);
+				}
+				catch (NullReferenceException) {
+					// file is empty.
+					Console.WriteLine("That file looks empty; let's create a database there.");
+					table = CreateDatabase(filePath);
+				}
 			}
+			var shell = new Shell(table);
+			shell.Repl();
+		}
+
+		private static Table CreateDatabase(string filePath = null) {
+			if (String.IsNullOrEmpty(filePath)) {
+				Console.WriteLine("What would you like to call your database?");
+				Console.Write("$> ");
+				filePath = Console.ReadLine();
+				if (!filePath.Contains("psv")) {
+					filePath += ".psv";
+				}
+			}
+			Console.WriteLine("Creating a new database at {0}...", filePath);
+			var headers = new List<string>();
+			Console.WriteLine("Start entering the names of the columns you would like.");
+			Console.WriteLine("When you're done, type 'done'");
+			var done = false;
+			do {
+				Console.Write("$> ");
+				var response = Console.ReadLine();
+				if (response.ToLower() == "done") {
+					done = true;
+				}
+				else {
+					headers.Add(response.ToLower());
+				}
+			} while (!done);
+			Console.WriteLine("Your headers are: {0}", headers);
+			Console.WriteLine("We'll now import your new database and you can interact with it.");
+			var table = new Table(new Session(filePath));
+			table.SetTableHeaders(headers);
+			table.SetTableEntries(new List<List<string>>());
+			return table;
 		}
 	}
 }

@@ -49,6 +49,7 @@
     <Compile Include="Menu.cs" />
     <Compile Include="ParsePSV.cs" />
     <Compile Include="Parser.cs" />
+    <Compile Include="Session.cs" />
     <Compile Include="Shell.cs" />
     <Compile Include="PSVWriter.cs" />
     <Compile Include="Table.cs" />

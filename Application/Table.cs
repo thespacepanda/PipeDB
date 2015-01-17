@@ -11,17 +11,17 @@ namespace Application {
 	class Table {
 
 		/// <summary>
-		/// File the database reads from and writes to.
+		/// Session used to access the persistance file.
 		/// </summary>
-		private StreamReader PersistanceFile;
+		private Session FileSession;
 
 		/// <summary>
-		/// Constructor; Takes the StreamReader of the persistance file.
+		/// Constructor; Takes a session used to manage file access. 
 		/// </summary>
-		/// <param name="psv"></param>
+		/// <param name="fileSession"></param>
 		/// <returns></returns>
-		public Table(StreamReader psv) {
-			this.PersistanceFile = psv;
+		public Table(Session fileSession) {
+			this.FileSession = fileSession;
 		}
 
 		/// <summary>
@@ -76,7 +76,7 @@ namespace Application {
 		/// </summary>
 		/// <param name="query"></param>
 		/// <returns></returns>
-		public List<List<string>> Read(int column = -1, Predicate<List<string>> query = null) {
+		public List<List<string>> Read(int column = -1 , Predicate<List<string>> query = null) {
 			if (query == null) {
 				query = _ => true;
 			}
@@ -86,7 +86,7 @@ namespace Application {
 			}
 			else {
 				// looks hairy but I need to wrap the inside values in a list.
-				return rowMatches.Select(r => Enumerable.Repeat(r[column], 1).ToList()).ToList();
+				return rowMatches.Select(r => Enumerable.Repeat(r[column] , 1).ToList()).ToList();
 			}
 		}
 
@@ -98,12 +98,12 @@ namespace Application {
 		/// <param name="diff"></param>
 		/// <param name="query"></param>
 		/// <returns></returns>
-		public void Update(Tuple<int , string> diff, Predicate<List<string>> query) {
+		public void Update(Tuple<int , string> diff , Predicate<List<string>> query) {
 			var matchingRows = Read(-1 , query);
 			foreach (var row in matchingRows) {
 				var index = this.Entries.IndexOf(row);
 				row[diff.Item1] = diff.Item2;
-				this.Entries[index] = row; 
+				this.Entries[index] = row;
 			}
 		}
 
