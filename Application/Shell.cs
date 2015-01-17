@@ -167,12 +167,5 @@ namespace Application {
 		private static void Print(string message) {
 			Console.WriteLine(message);
 		}
-
-		private static Exception Error(string errorMessage , string variable) {
-			Console.ForegroundColor = ConsoleColor.Red;
-			Print(errorMessage);
-			Console.ResetColor();
-			return new ArgumentException(errorMessage , variable);
-		}
 	}
 }

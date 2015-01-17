@@ -42,6 +42,9 @@ namespace Application {
 					// Defaults to saying nothing, maybe change to generic message?
 					break;
 			}
+			Console.ForegroundColor = ConsoleColor.Red;
+			Console.WriteLine(message);
+			Console.ResetColor();
 			return new ArgumentException(message , "args");
 		}
 	}
