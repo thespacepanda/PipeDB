@@ -19,7 +19,8 @@ namespace Application {
 					ImportDatabase();
 					break;
 				case 2:
-					//NewDatabase(); TODO
+					var table = CreateDatabase();
+					QuickImport(table);
 					break;
 				case 3:
 					Environment.Exit(0);
@@ -85,6 +86,15 @@ namespace Application {
 			table.SetTableHeaders(headers);
 			table.SetTableEntries(new List<List<string>>());
 			return table;
+		}
+
+		/// <summary>
+		/// Quickly import a created table (used with the menu option CreateDatabase).
+		/// </summary>
+		/// <param name="table"></param>
+		private static void QuickImport(Table table) {
+			var shell = new Shell(table);
+			shell.Repl();
 		}
 	}
 }
