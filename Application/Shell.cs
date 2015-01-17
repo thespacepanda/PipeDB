@@ -208,13 +208,35 @@ namespace Application {
 						.Subscribe(arg => newRow.Add(arg.Where(notCurly).ToString()));
 					return newRow;
 				}
-				throw Error(WrongNumberOfValues , "arg");
+				throw Error(WrongNumberOfValues , "args");
 			}
-			throw Error(MalformedRow , "arg");
+			throw Error(MalformedRow , "args");
 		}
 
+		private string MalformedQuery = "Queries must be comprised of a single header name, a =, and a value.";
+
+		private string NoMatchForHeader = "Couldn't find a header with that name.";
+
 		private Tuple<int , Predicate<List<string>>> ParseArgsRead(IEnumerable<string> args) {
-			throw new NotImplementedException();
+			if (args.Contains("where")) {
+				var query = args.Skip(2);
+				if (query.Count() == 3) {
+					if (this.Database.Headers.Contains(query.First())) {
+						var headerLocation = this.Database.Headers.IndexOf(query.First());
+						Predicate<List<string>> matchQuery = s => s[headerLocation] == query.Last();
+						return new Tuple<int , Predicate<List<string>>>(headerLocation , matchQuery);
+					}
+					throw Error(NoMatchForHeader , "args");
+				}
+				throw Error(MalformedQuery , "args");
+			}
+			if (args.First() == "*") {
+				return new Tuple<int , Predicate<List<string>>>(-1 , null);
+			}
+			else if (this.Database.Headers.Contains(args.First())) {
+				return new Tuple<int , Predicate<List<string>>>(this.Database.Headers.IndexOf(args.First()), null);
+			}
+			throw Error(NoMatchForHeader , "args");
 		}
 
 		private Tuple<Tuple<string , string> , Predicate<List<string>>> ParseArgsUpdate(IEnumerable<string> args) {
