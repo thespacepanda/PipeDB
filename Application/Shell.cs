@@ -209,9 +209,11 @@ namespace Application {
 			if (args.First().Contains('{') && args.Last().Contains('}')) {
 				if (args.Count() == this.Database.Headers.Count()) {
 					// TODO handle escape sequences for '{' and '}' literals
-					Func<char , bool> notCurly = c => c != '{' && c != '}';
 					foreach (string arg in args) {
-						newRow.Add(arg.Where(notCurly).ToString());
+						var stripCurly = arg.Replace("{", String.Empty);
+						stripCurly = stripCurly.Replace("}" , String.Empty);
+						var stripComma = stripCurly.Replace("," , String.Empty);
+						newRow.Add(stripComma);
 					}
 					return newRow;
 				}
