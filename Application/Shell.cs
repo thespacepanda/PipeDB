@@ -220,9 +220,9 @@ namespace Application {
 				if(args.Count() == this.Database.Headers.Count()) {
 					// TODO handle escape sequences for '{' and '}' literals
 					Func<char , bool> notCurly = c => c != '{' && c != '}';
-					args
-						.ToObservable()
-						.Subscribe(arg => newRow.Add(arg.Where(notCurly).ToString()));
+					foreach (string arg in args) {
+						newRow.Add(arg.Where(notCurly).ToString());
+					}
 					return newRow;
 				}
 				throw Error(WrongNumberOfValues , "args");
