@@ -103,8 +103,7 @@ namespace Application {
 					try {
 						var newRow = ParseArgsCreate(args);
 						if (this.Database.Create(newRow)) {
-							var stringOfRow = String.Join("," , newRow.ToArray());
-							Console.WriteLine(newRow);
+							var stringOfRow = String.Join(" | " , newRow.ToArray());
 							return String.Format("Row {0} added" , stringOfRow);
 						}
 						// This should be handled by the Argument parser, but just in case
@@ -207,8 +206,8 @@ namespace Application {
 		/// <returns></returns>
 		private List<string> ParseArgsCreate(IEnumerable<string> args) {
 			var newRow = new List<string>();
-			if(args.First().Contains('{') && args.Last().Contains('}')) {
-				if(args.Count() == this.Database.Headers.Count()) {
+			if (args.First().Contains('{') && args.Last().Contains('}')) {
+				if (args.Count() == this.Database.Headers.Count()) {
 					// TODO handle escape sequences for '{' and '}' literals
 					Func<char , bool> notCurly = c => c != '{' && c != '}';
 					foreach (string arg in args) {
