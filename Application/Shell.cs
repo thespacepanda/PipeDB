@@ -75,7 +75,7 @@ namespace Application {
 		private static string Read(string pushed = "") {
 			DisplayPrompt(pushed);
 			var command = Console.ReadLine();
-			return command;
+			return pushed + command;
 		}
 
 		/// <summary>
@@ -115,7 +115,9 @@ namespace Application {
 					try {
 						var newRow = ParseArgsCreate(args);
 						if (this.Database.Create(newRow)) {
-							return String.Format("Row {0} added" , newRow);
+							var stringOfRow = String.Join("," , newRow.ToArray());
+							Console.WriteLine(newRow);
+							return String.Format("Row {0} added" , stringOfRow);
 						}
 						// This should be handled by the Argument parser, but just in case
 						return "Rows must provide values for every column in the header.";
@@ -130,10 +132,20 @@ namespace Application {
 						var query = columnAndQuery.Item2;
 						if (column == -1) {
 							var rowsThatMatch = this.Database.Read(query);
-							return String.Format("{0}" , rowsThatMatch);
+							var rowString = String.Empty;
+							foreach (List<string> row in rowsThatMatch) {
+								rowString += String.Join(" | " , row.ToArray());
+								rowString += "\n";
+							}
+							return rowString;
 						}
 						var columnsThatMatch = this.Database.Read(column , query);
-						return String.Format("{0}" , columnsThatMatch);
+						var columnString = String.Empty;
+						foreach (string value in columnsThatMatch) {
+							columnString += value;
+							columnString += "\n";
+						}
+						return columnString;
 					}
 					catch (ArgumentException) {
 						return PushToPrompt("read" , Command.Read);
@@ -165,7 +177,13 @@ namespace Application {
 				case Command.Quit:
 					return "quitting...";
 				case Command.Nothing:
-					return "I don't understand that command; try Create, Read, Update, Delete, or Quit.";
+					//return "I don't understand that command; try Create, Read, Update, Delete, or Quit.";
+					var showHeaders = String.Empty;
+					foreach (string header in this.Database.Headers) {
+						showHeaders += header;
+						showHeaders += "\n";
+					}
+					return showHeaders;
 				default:
 					return "This should never happen.";
 			}
@@ -230,6 +248,9 @@ namespace Application {
 				}
 				throw Error(MalformedQuery , "args");
 			}
+			if (args.Count() == 0) {
+				throw Error("Must give an argument." , "args");
+			}
 			if (args.First() == "*") {
 				return new Tuple<int , Predicate<List<string>>>(-1 , null);
 			}
@@ -238,8 +259,11 @@ namespace Application {
 			}
 			throw Error(NoMatchForHeader , "args");
 		}
-
 		private Tuple<Tuple<string , string> , Predicate<List<string>>> ParseArgsUpdate(IEnumerable<string> args) {
+			throw new NotImplementedException();
+		}
+
+		private Predicate<List<string>> ParseArgsDelete(IEnumerable<string> args) {
 			throw new NotImplementedException();
 		}
 

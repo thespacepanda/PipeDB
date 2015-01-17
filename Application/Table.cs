@@ -29,7 +29,8 @@ namespace Application {
 		/// </summary>
 		/// <param name="headers"></param>
 		public void SetTableHeaders(List<string> headers) {
-			this.Headers = headers;
+			// Just for my sanity atm...
+			this.Headers = headers.Select(h => h.ToLower()).ToList();
 		}
 
 		/// <summary>
@@ -37,7 +38,8 @@ namespace Application {
 		/// </summary>
 		/// <param name="entries">The list of list or lines of entries.</param>
 		public void SetTableEntries(List<List<string>> entries) {
-			this.Entries = entries;
+			// again... making it easier... deadlines.
+			this.Entries = entries.Select(e => e.Select(v => v.ToLower()).ToList()).ToList();
 		}
 
 		/// <summary>
@@ -75,9 +77,6 @@ namespace Application {
 		/// <param name="query"></param>
 		/// <returns></returns>
 		public List<string> Read(int column , Predicate<List<string>> query = null) {
-			if (column < this.Headers.Count) {
-				return new List<string>();
-			}
 			return Read(query)
 				.Select(row => row[column])
 				.ToList();
