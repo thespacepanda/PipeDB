@@ -36,8 +36,9 @@ namespace Application {
 						shell.Repl();
 					}
 				}
-				else if(this.OrigFileLocation == "-h") {
+				else if(this.OrigFileLocation == "/?") {
 					//TODO: Display the help menu.
+					HelpDocs.DisplayHelp();
 				}
 			}
 			else {
