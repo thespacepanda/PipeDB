@@ -98,13 +98,13 @@ namespace Application {
 		/// <param name="diff"></param>
 		/// <param name="query"></param>
 		/// <returns></returns>
-		public bool Update(Tuple<string , string> diff, Predicate<List<string>> query) {
-			if (this.Headers.Contains(diff.Item1)) {
-				Read(-1, query)
-					.Select(row => row[this.Headers.IndexOf(diff.Item1)] = diff.Item2);
-				return true;
+		public void Update(Tuple<int , string> diff, Predicate<List<string>> query) {
+			var matchingRows = Read(-1 , query);
+			foreach (var row in matchingRows) {
+				var index = this.Entries.IndexOf(row);
+				row[diff.Item1] = diff.Item2;
+				this.Entries[index] = row; 
 			}
-			return false;
 		}
 
 		/// <summary>

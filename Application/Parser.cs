@@ -123,7 +123,7 @@ namespace Application {
 		/// <param name="whereClause"></param>
 		/// <returns></returns>
 		private Predicate<List<string>> WhereToQuery(IEnumerable<string> whereClause) {
-			if (ValidClause(whereClause, ErrorType.MalformedQuery)) {
+			if (ValidClause(whereClause , ErrorType.MalformedQuery)) {
 				var queryHeader = this.ValidHeaders.IndexOf(whereClause.First());
 				return row => row[queryHeader] == whereClause.Last();
 			}
@@ -151,8 +151,25 @@ namespace Application {
 			}
 		}
 
-		public Tuple<Tuple<string , string> , Predicate<List<string>>> Update(IEnumerable<string> args) {
-			throw new NotImplementedException();
+		public Tuple<Tuple<int , string> , Predicate<List<string>>> Update(IEnumerable<string> args) {
+			if (args.Count() != 7) {
+				throw Error.ArgumentException(ErrorType.MalformedUpdate);
+			}
+			var clauses = ClauseSeparator(args);
+			var assignmentClause = clauses.First();
+			var whereClause = clauses.Last();
+			var query = WhereToQuery(whereClause);
+			var diff = AssignmentToDiff(assignmentClause);
+			return new Tuple<Tuple<int , string> , Predicate<List<string>>>(diff , query);
+		}
+
+		private List<IEnumerable<string>> ClauseSeparator(IEnumerable<string> tiedClauses) {
+			var assignmentClause = tiedClauses.Take(3);
+			var whereClause = tiedClauses.Skip(4);
+			var clauses = new List<IEnumerable<string>>();
+			clauses.Add(assignmentClause);
+			clauses.Add(whereClause);
+			return clauses;
 		}
 
 		public Predicate<List<string>> Delete(IEnumerable<string> args) {

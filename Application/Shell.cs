@@ -124,10 +124,8 @@ namespace Application {
 						var diffAndQuery = this.Parse.Update(args);
 						var diff = diffAndQuery.Item1;
 						var query = diffAndQuery.Item2;
-						if (this.Database.Update(diff , query)) {
-							return "Updated Database";
-						}
-						return "Type not in Headers.";
+						this.Database.Update(diff , query);
+						return "Updated Database";
 					}
 					catch (ArgumentException) {
 						return String.Empty;

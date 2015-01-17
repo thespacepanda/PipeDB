@@ -10,6 +10,7 @@ namespace Application {
 		MalformedRow ,
 		MalformedQuery ,
 		MalformedAssignment ,
+		MalformedUpdate ,
 		WrongNumberOfValues ,
 		NoMatchForHeader ,
 		NoArgument
@@ -36,6 +37,9 @@ namespace Application {
 					break;
 				case ErrorType.MalformedAssignment:
 					message = "The column to update must be presented as: 'update column_name = new_value'";
+					break;
+				case ErrorType.MalformedUpdate:
+					message = "Updates must be performed as: update column_name = new_value where column_name* = value";
 					break;
 				case ErrorType.WrongNumberOfValues:
 					message = "Rows must provide values for every column in the header.";
