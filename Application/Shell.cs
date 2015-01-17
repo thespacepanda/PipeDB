@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
-using System.Reactive.Linq;
 
 namespace Application {
 
@@ -114,15 +113,10 @@ namespace Application {
 				case Command.Create:
 					try {
 						var newRow = ParseArgsCreate(args);
-<<<<<<< HEAD
 						if (this.Database.Create(newRow)) {
 							var stringOfRow = String.Join("," , newRow.ToArray());
 							Console.WriteLine(newRow);
 							return String.Format("Row {0} added" , stringOfRow);
-=======
-						if(this.Database.Create(newRow)) {
-							return String.Format("Row {0} added" , newRow);
->>>>>>> origin/crud
 						}
 						// This should be handled by the Argument parser, but just in case
 						return "Rows must provide values for every column in the header.";
