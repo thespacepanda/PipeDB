@@ -35,31 +35,12 @@ namespace Application {
 		/// </summary>
 		/// <param name="table"></param>
 		public void Repl() {
-<<<<<<< HEAD
 			var result = string.Empty;
 			do {
 				var command = Read();
 				result = Evaluate(command);
 				Print(result);
 			} while(!(result == "quitting..."));
-=======
-			while(true) {
-				var command = Read();
-				var message = Evaluate(command);
-				// using "quitting..." as a flag, never gets shown to the user
-				// seems a little strange, but if we Print before we break we will
-				// show "quitting" as many times as the user enters a malformed
-				// argument to a database command. In this sense, the PushToPrompt
-				// method creates a transparent stack of while loops (inside the
-				// nested Repl() method). Hopefully this isn't a memory overflow spot.
-
-				// TODO possible race condition
-				if(message == "quitting...") {
-					break;
-				}
-				Print(message);
-			}
->>>>>>> origin/crud
 		}
 
 		/// <summary>
@@ -93,12 +74,7 @@ namespace Application {
 		/// <param name="command"></param>
 		/// <returns></returns>
 		private static Command Interpret(string command) {
-<<<<<<< HEAD
 			switch(command.Split()[0].ToLower()) {
-=======
-			var words = command.ToLower().Split();
-			switch(words[0]) {
->>>>>>> origin/crud
 				case "create":
 					return Command.Create;
 				case "read":
@@ -119,16 +95,10 @@ namespace Application {
 		/// </summary>
 		/// <param name="command"></param>
 		/// <returns></returns>
-<<<<<<< HEAD
-		private static string Evaluate(Command command) {
-			// TODO interact with Database
-			switch(command) {
-=======
 		private string Evaluate(string command) {
 			var verb = Interpret(command);
 			var args = command.ToLower().Split().Skip(1);
 			switch(verb) {
->>>>>>> origin/crud
 				case Command.Create:
 					try {
 						var newRow = ParseArgsCreate(args);
