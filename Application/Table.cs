@@ -68,6 +68,7 @@ namespace Application {
 				return false;
 			}
 			this.Entries.Add(newRow);
+			Sync();
 			return true;
 		}
 
@@ -105,6 +106,7 @@ namespace Application {
 				row[diff.Item1] = diff.Item2;
 				this.Entries[index] = row;
 			}
+			Sync();
 		}
 
 		/// <summary>
@@ -114,6 +116,14 @@ namespace Application {
 		/// <returns></returns>
 		public void Delete(Predicate<List<string>> query) {
 			this.Entries.RemoveAll(query);
+			Sync();
+		}
+
+		/// <summary>
+		/// Syncs the changes to the file system.
+		/// </summary>
+		private void Sync() {
+			this.FileSession.WriteTable(this);
 		}
 	}
 }

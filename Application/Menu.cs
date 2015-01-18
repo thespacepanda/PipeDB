@@ -66,6 +66,7 @@ namespace Application {
 				}
 			}
 			Console.WriteLine("Creating a new database at {0}...", filePath);
+			File.Create(filePath).Close();
 			var headers = new List<string>();
 			Console.WriteLine("Start entering the names of the columns you would like.");
 			Console.WriteLine("When you're done, type 'done'");

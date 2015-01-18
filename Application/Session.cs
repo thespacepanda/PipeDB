@@ -97,5 +97,34 @@ namespace Application {
 			}
 			return this.RestOfFile;
 		}
+
+		public void WriteTable(Table table) {
+			var contents = String.Empty;
+			foreach (var str in Intersperse(table.Headers))
+			{
+				contents += str;		 
+			}
+			contents += "\n";
+			foreach (var row in table.Entries) {
+				foreach (var str in Intersperse(row)) {
+					contents += str;	
+				}
+				contents += "\n";
+			}
+			WriteToFile(contents);
+		}
+
+		private IEnumerable<string> Intersperse(IEnumerable<string> headers) {
+			var first = true;
+			foreach (var header in headers) {
+				if (first) {
+					first = false;
+				}
+				else {
+					yield return " | ";
+				}
+				yield return header;
+			}
+		}
 	}
 }

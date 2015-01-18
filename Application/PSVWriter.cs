@@ -36,21 +36,19 @@ namespace Application {
 		/// Writes the header row of the table.
 		/// </summary>
 		public void WriteHeader() {
-			if(!this.TableExists) {
-				using(var sw = new StreamWriter(this.Table.TableName)) {
-					var headerRow = string.Empty;
-
-					var line = string.Empty;
-					foreach(var header in this.Table.Headers) {
-						var record = this.Table.Headers.IndexOf(header) != this.Table.Headers.Count ? header + " | " : header;
-						line += record;
-					}
-
-					this.BuiltFile.Insert(0 , line + "\n");
+			if (!this.TableExists) {
+				var headerRow = string.Empty;
+				var line = string.Empty;
+				foreach (var header in this.Table.Headers) {
+					var record = this.Table.Headers.IndexOf(header) != this.Table.Headers.Count ? header + " | " : header;
+					line += record;
 				}
+				this.BuiltFile.Insert(0 , line + "\n");
+				// doesn't write to file;
 			}
 			else {
 				//TODO: Prompt for file overwrite. handle console out else where.
+				throw new System.NotImplementedException();
 			}
 		}
 
@@ -58,22 +56,20 @@ namespace Application {
 		/// Writes the entries out to the PSV.
 		/// </summary>
 		public void WriteEntries() {
-			if(!this.TableExists) {
-				using(var sw = new StreamWriter(this.Table.TableName)) {
-					foreach(var list in this.Table.Entries) {
-
-						var line = string.Empty;
-						foreach(var entry in list) {
-							var record = list.IndexOf(entry) != list.Count ? entry + " | " : entry;
-							line += record;
-						}
-
-						BuiltFile.AppendLine(line);
+			if (!this.TableExists) {
+				foreach (var list in this.Table.Entries) {
+					var line = string.Empty;
+					foreach (var entry in list) {
+						var record = list.IndexOf(entry) != list.Count ? entry + " | " : entry;
+						line += record;
 					}
+					BuiltFile.AppendLine(line);
 				}
+				//this.Table.FileSession.WriteToFile(this.BuiltFile);
 			}
 			else {
 				//TODO: Prompt for file overwrite. Handle console write in another location.
+				throw new System.NotImplementedException();
 			}
 		}
 	}
