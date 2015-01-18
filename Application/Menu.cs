@@ -54,6 +54,7 @@ namespace Application {
 			}
 			var shell = new Shell(table);
 			shell.Repl();
+			Console.ResetColor();
 		}
 
 		private static Table CreateDatabase(string filePath = null) {
@@ -96,6 +97,7 @@ namespace Application {
 		private static void QuickImport(Table table) {
 			var shell = new Shell(table);
 			shell.Repl();
+			Console.ResetColor();
 		}
 	}
 }
