@@ -153,8 +153,8 @@ namespace Application {
 					//return "I don't understand that command; try Create, Read, Update, Delete, or Quit.";
 					var showHeaders = String.Empty;
 					foreach (string header in this.Database.Headers) {
-						showHeaders += header;
-						showHeaders += "\n";
+						showHeaders += header + "\t";
+						//showHeaders += "\n";
 					}
 					return showHeaders;
 				default:
