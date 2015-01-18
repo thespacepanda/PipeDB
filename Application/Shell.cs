@@ -89,6 +89,12 @@ namespace Application {
 		private string Evaluate(string command) {
 			var verb = Interpret(command);
 			var args = command.ToLower().Split().Skip(1);
+			if (args.Count() != 0) {
+				if (args.First() == "/?") {
+					HelpDocs.DisplayReplHelp(verb);
+					return String.Empty;
+				}
+			}
 			switch (verb) {
 				case Command.Create:
 					try {
