@@ -23,6 +23,7 @@ namespace Application {
 					QuickImport(table);
 					break;
 				case 3:
+					Console.ResetColor();
 					Environment.Exit(0);
 					break;
 				default:
@@ -54,6 +55,7 @@ namespace Application {
 			}
 			var shell = new Shell(table);
 			shell.Repl();
+			PresentMenu();
 			Console.ResetColor();
 		}
 
@@ -97,6 +99,7 @@ namespace Application {
 		private static void QuickImport(Table table) {
 			var shell = new Shell(table);
 			shell.Repl();
+			PresentMenu();
 			Console.ResetColor();
 		}
 	}
